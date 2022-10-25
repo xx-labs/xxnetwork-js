@@ -1,9 +1,16 @@
 {
-  "name": "xxnetwork-js",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "git@github.com:xx-labs/xxnetwork-js.git",
   "author": "Bernardo Cardoso <bernardo@xx.network>",
+  "homepage": "https://github.com/xx-labs/xxnetwork-js#readme",
   "license": "Apache-2.0",
-  "private": true
+  "private": true,
+  "repository": "git@github.com:xx-labs/xxnetwork-js.git",
+  "sideEffects": false,
+  "type": "module",
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/*"
+  ],
+  "resolutions": {
+    "typescript": "^4.8.4"
+  }
 }
