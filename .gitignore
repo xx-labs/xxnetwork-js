@@ -1,6 +1,7 @@
 build/
 build-*/
 node_modules/
+target/
 .DS_Store
 .env.local
 .env.development.local
