@@ -10,3 +10,5 @@ pck.files = ["**/*", "!**/tsconfig.tsbuildinfo", "!**/*.tgz"];
 
 writeFileSync(`${buildPath}/package.json`, JSON.stringify(pck, null, 2));
 copyFileSync("README.md", `${buildPath}/README.md`);
+
+copyFileSync("./src/index.cjs", `${buildPath}/index.cjs`);
