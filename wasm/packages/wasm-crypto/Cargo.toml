@@ -1,0 +1,37 @@
+# name & version is only used internally, doesn't need to be adjusted. In the case of
+# name keep it consistent at "wasm" since the scripts (for re-use purposes) expect that
+
+[package]
+authors = ["Bernardo Cardoso <bernardo@xx.network>"]
+description = "WASM bindings to Rust crypto libraries."
+edition = "2018"
+license = "Apache-2.0"
+name = "wasm"
+publish = false
+repository = "https://github.com/xx-labs/xxnetwork-js/tree/main/packages/wasm"
+resolver = "2"
+version = "0.0.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+tiny-bip39 = { version = "0.7", default-features = false }
+wasm-bindgen = "=0.2.79"
+wee_alloc = "0.4.3"
+w_ots = { git = "https://github.com/ChainSafe/W-OTS.git", default-features = false }
+bip32 = { version = "0.4.0" }
+
+[dev-dependencies]
+hex-literal = "0.2.0"
+rand = { version = "0.7.3", features = ["wasm-bindgen"] }
+
+[profile.release]
+codegen-units = 1
+debug = false
+debug-assertions = false
+incremental = false
+lto = true
+opt-level = "z"
+panic = "abort"
+rpath = false

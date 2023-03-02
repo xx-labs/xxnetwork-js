@@ -1,0 +1,36 @@
+{
+  "author": "Bernardo Cardoso <bernardo@xx.network>",
+  "bugs": "https://github.com/xx-labs/xxnetwork-js/issues",
+  "contributors": [],
+  "description": "A bridge layer between JS and Wasm",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/xx-labs/xxnetwork-js/tree/master/packages/wasm-bridge#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/wasm-bridge",
+  "repository": {
+    "directory": "packages/wasm-bridge",
+    "type": "git",
+    "url": "https://github.com/xx-labs/xxnetwork-js.git"
+  },
+  "sideEffects": [
+    "./detectPackage.js",
+    "./detectPackage.cjs"
+  ],
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/runtime": "^7.21.0"
+  },
+  "devDependencies": {
+    "@polkadot/util": "^10.4.2",
+    "@polkadot/x-randomvalues": "^10.4.2"
+  },
+  "peerDependencies": {
+    "@polkadot/util": "*",
+    "@polkadot/x-randomvalues": "*"
+  }
+}

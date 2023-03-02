@@ -1,0 +1,32 @@
+{
+  "author": "Bernardo Cardoso <bernardo@xx.network>",
+  "bugs": "https://github.com/xx-labs/xxnetwork-js/issues",
+  "contributors": [],
+  "description": "Wasm content for wasm-crypto",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "homepage": "https://github.com/xx-labs/xxnetwork-js/tree/master/packages/wasm-crypto-wasm#readme",
+  "license": "Apache-2.0",
+  "maintainers": [],
+  "name": "@polkadot/wasm-crypto-wasm",
+  "repository": {
+    "directory": "packages/wasm-crypto-wasm",
+    "type": "git",
+    "url": "https://github.com/xx-labs/xxnetwork-js.git"
+  },
+  "sideEffects": false,
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@babel/runtime": "^7.21.0",
+    "@polkadot/wasm-util": "1.0.0"
+  },
+  "devDependencies": {
+    "@polkadot/util": "^10.4.2"
+  },
+  "peerDependencies": {
+    "@polkadot/util": "*"
+  }
+}

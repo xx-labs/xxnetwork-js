@@ -1,0 +1,21 @@
+{
+  "extends": "@polkadot/dev/config/tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "paths": {
+      "@polkadot/wasm-bridge": ["wasm-bridge/src"],
+      "@polkadot/wasm-bridge/*": ["wasm-bridge/src/*"],
+      "@polkadot/wasm-crypto-asmjs": ["wasm-crypto-asmjs/src"],
+      "@polkadot/wasm-crypto-asmjs/*": ["wasm-crypto-asmjs/src/*"],
+      "@polkadot/wasm-crypto-wasm": ["wasm-crypto-wasm/src"],
+      "@polkadot/wasm-crypto-wasm/*": ["wasm-crypto-wasm/src/*"],
+      "@polkadot/wasm-crypto-init": ["wasm-crypto-init/src/wasm"],
+      "@polkadot/wasm-crypto-init/*": ["wasm-crypto-init/src/*"],
+      "@polkadot/wasm-crypto": ["wasm-crypto/src"],
+      "@polkadot/wasm-util": ["wasm-util/src"],
+      "@polkadot/wasm-util/*": ["wasm-util/src/*"],
+    },
+    "skipLibCheck": true,
+    "target": "es2020"
+  }
+ }
