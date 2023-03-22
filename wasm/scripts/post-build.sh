@@ -13,6 +13,8 @@ do
     jq --arg a "$directory" '.repository.directory = $a' tmp.json > packages/$d/build/package.json
 done
 
+rm tmp.json
+
 # Deal with wasm/crypto bundle
 sed -i 's/bundle-polkadot-wasm-crypto/bundle-xxnetwork-wasm-crypto/g' packages/wasm-crypto/build/bundle-polkadot-wasm-crypto.js
 mv packages/wasm-crypto/build/bundle-polkadot-wasm-crypto.js packages/wasm-crypto/build/bundle-xxnetwork-wasm-crypto.js

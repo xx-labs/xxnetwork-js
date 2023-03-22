@@ -1,30 +1,17 @@
-use w_ots::{
-    hasher::{Blake2bHasher, Sha3_224Hasher, Sha3_256Hasher, Hasher},
-    keys::Key,
-    security::level_0_params,
-};
-use bip32::XPrv;
+use w_ots::hasher::{Sha3_256Hasher, Hasher};
 use wasm_bindgen::prelude::*;
-use bip39::{Mnemonic, Seed, Language};
+use bip39::{Mnemonic, Language};
+use crate::wots::{get_seed_from_phrase, derive_bip32, generate_wots_key};
 
 /// Generate a Sleeve wallet
 #[wasm_bindgen]
 pub fn ext_generate_sleeve(phrase: &str) -> String {
-    // Default path
-    let path = "m/44'/1955'/0'/0'/0'";
-    // Get master seed from mnemonic phrase
-    let seed = match Mnemonic::from_phrase(phrase, Language::English) {
-		Ok(m) => Seed::new(&m, "").as_bytes().to_vec(),
-		_ => panic!("Invalid phrase provided.")
-	};
-    // Derive BIP32 private key
-    let ext = XPrv::derive_from_path(&seed, &path.parse().unwrap()).unwrap();
-    let mut secret_key = [0u8; 32];
-    secret_key.copy_from_slice(&ext.private_key().to_bytes());
-    let code = ext.attrs().chain_code;
-    // Generate WOTS+ key with default parameters
-    let params = level_0_params();
-    let key = Key::<Blake2bHasher, Sha3_224Hasher>::from_seed(params, secret_key, code).unwrap();
+    // Get BIP39 seed from mnemonic phrase
+    let seed = get_seed_from_phrase(phrase);
+    // Apply BIP32 derivation with default path (0, 0, 0)
+    let (secret_key, code) = derive_bip32(&seed, 0, 0, 0);
+    // Generate WOTS+ key from seeds
+    let key = generate_wots_key(0, secret_key, code);
     // Derive Sleeve secret key
     let mut secret = [0u8; 32];
     let mut hasher = Sha3_256Hasher::new();

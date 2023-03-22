@@ -1,15 +1,15 @@
-// Copyright 2019-2022 @polkadot/wasm-crypto authors & contributors
+// Copyright 2019-2023 @polkadot/wasm-crypto authors & contributors
 // SPDX-License-Identifier: Apache-2.0
 
-const { assert } = require('@polkadot/util');
+import { assert } from '@polkadot/util';
 
-const sleeve = require('./sleeve.js');
+import * as sleeve from './sleeve.js';
 
-const tests = {
-  ...sleeve
+export const tests = {
+  sleeve
 };
 
-async function beforeAll (name, wasm) {
+export async function initRun (name, wasm) {
   const result = await wasm.waitReady();
 
   console.log(`*** waitReady()=${result} for ${wasm.bridge.type}`);
@@ -19,31 +19,37 @@ async function beforeAll (name, wasm) {
   return result;
 }
 
-function runAll (name, wasm) {
+export function runAll (name, wasm) {
   const failed = [];
   let count = 0;
 
   Object
     .entries(tests)
-    .forEach(([name, test]) => {
-      const timerId = `\t${name}`;
+    .forEach(([describeName, tests]) => {
+      describe(describeName, () => {
+        Object
+          .entries(tests)
+          .forEach(([name, test]) => {
+            const timerId = `\t${name}`;
 
-      count++;
+            count++;
 
-      try {
-        console.time(timerId);
-        console.log();
-        console.log(timerId);
+            try {
+              console.time(timerId);
+              console.log();
+              // console.log(timerId);
 
-        test(wasm);
+              test(wasm);
 
-        console.timeEnd(timerId);
-      } catch (error) {
-        console.error();
-        console.error(error);
+              console.timeEnd(timerId);
+            } catch (error) {
+              console.error();
+              console.error(error);
 
-        failed.push(name);
-      }
+              failed.push(name);
+            }
+          });
+      });
     });
 
   if (failed.length) {
@@ -51,24 +57,38 @@ function runAll (name, wasm) {
   }
 }
 
-function runUnassisted (name, wasm) {
-  console.log(`\n*** ${name}: Running tests`);
+export function runUnassisted (type, wasm) {
+  console.log(`\n*** ${type}: Running tests`);
 
-  beforeAll(name, wasm)
-    .then(() => runAll(name, wasm))
+  // for these we are pass-through describe and it handlers
+  globalThis.describe = (name, fn) => {
+    console.log('\n', name);
+
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fn();
+  };
+
+  globalThis.it = (name, fn) => {
+    console.log(`\t${name}`);
+
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fn();
+  };
+
+  console.time(type);
+
+  initRun(type, wasm)
     .then(() => {
-      console.log(`\n*** ${name}: All passed`);
+      runAll(type, wasm);
+      console.log(`\n*** ${type}: All passed`);
+      console.timeEnd(type);
+      console.log();
       process.exit(0);
     })
     .catch((error) => {
-      console.error(error.message, '\n');
+      console.error(`\n*** ${type}: FAILED:`, error.message, '\n');
+      console.timeEnd(type);
+      console.log();
       process.exit(-1);
     });
 }
-
-module.exports = {
-  beforeAll,
-  runAll,
-  runUnassisted,
-  tests
-};

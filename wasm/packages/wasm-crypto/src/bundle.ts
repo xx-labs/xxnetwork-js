@@ -46,6 +46,48 @@ export const generateSleeve = withWasm((wasm, phrase: string): string => {
   return bridge.resultString();
 });
 
+export const wotsGetPk = withWasm((wasm, seed: Uint8Array, nonce: number): Uint8Array => {
+  wasm.ext_wots_get_pk(8, ...bridge.allocU8a(seed), nonce);
+
+  return bridge.resultU8a();
+});
+
+export const wotsGetPkFromPhrase = withWasm((wasm, phrase: string, nonce: number): Uint8Array => {
+  wasm.ext_wots_get_pk(8, ...bridge.allocString(phrase), nonce);
+
+  return bridge.resultU8a();
+});
+
+export const wotsSign = withWasm((wasm, seed: Uint8Array, nonce: number, message: Uint8Array): Uint8Array => {
+  wasm.ext_wots_sign(8, ...bridge.allocU8a(seed), nonce, ...bridge.allocU8a(message));
+
+  return bridge.resultU8a();
+});
+
+export const advancedWotsGetPk = withWasm((wasm, seed: Uint8Array, account: number, level: number, nonce: number): Uint8Array => {
+  wasm.ext_advanced_wots_get_pk(8, ...bridge.allocU8a(seed), account, level, nonce);
+
+  return bridge.resultU8a();
+});
+
+export const advancedWotsGetPkFromPhrase = withWasm((wasm, phrase: string, account: number, level: number, nonce: number): Uint8Array => {
+  wasm.ext_advanced_wots_get_pk(8, ...bridge.allocString(phrase), account, level, nonce);
+
+  return bridge.resultU8a();
+});
+
+export const advancedWotsSign = withWasm((wasm, seed: Uint8Array, account: number, level: number, nonce: number, message: Uint8Array): Uint8Array => {
+  wasm.ext_advanced_wots_sign(8, ...bridge.allocU8a(seed), account, level, nonce, ...bridge.allocU8a(message));
+
+  return bridge.resultU8a();
+});
+
+export const wotsVerify = withWasm((wasm, signature: Uint8Array, message: Uint8Array, pubkey: Uint8Array): boolean => {
+  const ret = wasm.ext_wots_verify(...bridge.allocU8a(signature), ...bridge.allocU8a(message), ...bridge.allocU8a(pubkey));
+
+  return ret !== 0;
+});
+
 export function isReady (): boolean {
   return !!bridge.wasm;
 }

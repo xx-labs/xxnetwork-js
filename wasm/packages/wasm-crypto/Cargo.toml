@@ -23,7 +23,7 @@ w_ots = { git = "https://github.com/ChainSafe/W-OTS.git", default-features = fal
 bip32 = { version = "0.4.0" }
 
 [dev-dependencies]
-hex-literal = "0.2.0"
+hex = "0.4.3"
 rand = { version = "0.7.3", features = ["wasm-bindgen"] }
 
 [profile.release]

@@ -15,3 +15,7 @@ package-lock.json
 tsconfig*buildinfo
 yarn-debug.log*
 yarn-error.log*
+
+# top level cargo files are needed just for rust-analyzer
+Cargo.lock
+Cargo.toml

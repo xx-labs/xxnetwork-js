@@ -5,5 +5,8 @@
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
+#[path = "rs/wots.rs"]
+pub mod wots;
+
 #[path = "rs/sleeve.rs"]
 pub mod sleeve;
