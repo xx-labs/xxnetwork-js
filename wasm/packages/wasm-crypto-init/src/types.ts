@@ -11,6 +11,8 @@ export interface WasmCryptoInstance extends WasmBaseInstance {
 
   ext_generate_sleeve(resLen: 8, ptrPhrase: number, lenPhrase: number): void;
 
+  ext_generate_sleeve_from_node(resLen: 8, ptrPriv: number, lenPriv: number, ptrCode: number, lenCode: number): void;
+
   ext_wots_get_pk(resLen: 8, ptrSeed: number, lenSeed: number, nonce: number): void;
 
   ext_wots_get_pk_from_phrase(resLen: 8, ptrPhrase: number, lenPhrase: number, nonce: number): void;

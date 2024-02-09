@@ -62,9 +62,9 @@ pub fn ext_advanced_wots_get_pk_from_phrase(phrase: &str, account: u32, level: u
 
 /// Sign message using the WOTS+ key derived from a given BIP39 seed and nonce
 #[wasm_bindgen]
-pub fn ext_advanced_wots_sign(seed: &[u8], account: u32, level: u32, nonce: u32, message: &[u8]) -> Vec<u8> {
+pub fn ext_advanced_wots_sign(seed: &[u8], account: u32, level: u32, nonce: u32, data: &[u8]) -> Vec<u8> {
     let key = generate_wots_key_from_seed(seed, account, level, nonce);
-    match key.sign(message) {
+    match key.sign(data) {
         Ok(sig) => sig,
         _ => panic!("Couldn't sign data.")
     }

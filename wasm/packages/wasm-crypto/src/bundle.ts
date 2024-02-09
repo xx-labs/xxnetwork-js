@@ -46,6 +46,12 @@ export const generateSleeve = withWasm((wasm, phrase: string): string => {
   return bridge.resultString();
 });
 
+export const generateSleeveFromNode = withWasm((wasm, priv: Uint8Array, code: Uint8Array): string => {
+  wasm.ext_generate_sleeve_from_node(8, ...bridge.allocU8a(priv), ...bridge.allocU8a(code));
+
+  return bridge.resultString();
+});
+
 export const wotsGetPk = withWasm((wasm, seed: Uint8Array, nonce: number): Uint8Array => {
   wasm.ext_wots_get_pk(8, ...bridge.allocU8a(seed), nonce);
 
@@ -53,7 +59,7 @@ export const wotsGetPk = withWasm((wasm, seed: Uint8Array, nonce: number): Uint8
 });
 
 export const wotsGetPkFromPhrase = withWasm((wasm, phrase: string, nonce: number): Uint8Array => {
-  wasm.ext_wots_get_pk(8, ...bridge.allocString(phrase), nonce);
+  wasm.ext_wots_get_pk_from_phrase(8, ...bridge.allocString(phrase), nonce);
 
   return bridge.resultU8a();
 });
