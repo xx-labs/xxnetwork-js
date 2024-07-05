@@ -7,7 +7,7 @@ import '@polkadot/api-base/types/calls';
 
 import type { ApiTypes, AugmentedCall, DecoratedCallBase } from '@polkadot/api-base/types';
 import type { Bytes, Null, Option, Vec, u32 } from '@polkadot/types-codec';
-import type { AnyNumber, ITuple } from '@polkadot/types-codec/types';
+import type { AnyNumber, IMethod, ITuple } from '@polkadot/types-codec/types';
 import type { BabeEquivocationProof, BabeGenesisConfiguration, Epoch, OpaqueKeyOwnershipProof } from '@polkadot/types/interfaces/babe';
 import type { CheckInherentsResult, InherentData } from '@polkadot/types/interfaces/blockbuilder';
 import type { BlockHash } from '@polkadot/types/interfaces/chain';
@@ -16,9 +16,9 @@ import type { Extrinsic } from '@polkadot/types/interfaces/extrinsics';
 import type { AuthorityList, GrandpaEquivocationProof, SetId } from '@polkadot/types/interfaces/grandpa';
 import type { OpaqueMetadata } from '@polkadot/types/interfaces/metadata';
 import type { FeeDetails, RuntimeDispatchInfo } from '@polkadot/types/interfaces/payment';
-import type { AccountId, Block, Header, Index, KeyTypeId, Slot } from '@polkadot/types/interfaces/runtime';
-import type { RuntimeVersionPre4 } from '@polkadot/types/interfaces/state';
-import type { ApplyExtrinsicResultPre6 } from '@polkadot/types/interfaces/system';
+import type { AccountId, Balance, Block, Call, Header, Index, KeyTypeId, Slot, Weight } from '@polkadot/types/interfaces/runtime';
+import type { RuntimeVersion } from '@polkadot/types/interfaces/state';
+import type { ApplyExtrinsicResult } from '@polkadot/types/interfaces/system';
 import type { TransactionSource, TransactionValidity } from '@polkadot/types/interfaces/txqueue';
 import type { IExtrinsic, Observable } from '@polkadot/types/types';
 
@@ -80,12 +80,12 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0x40fe3ad401f8959a/5 */
+    /** 0x40fe3ad401f8959a/6 */
     blockBuilder: {
       /**
        * Apply the given extrinsic.
        **/
-      applyExtrinsic: AugmentedCall<ApiType, (extrinsic: Extrinsic | IExtrinsic | string | Uint8Array) => Observable<ApplyExtrinsicResultPre6>>;
+      applyExtrinsic: AugmentedCall<ApiType, (extrinsic: Extrinsic | IExtrinsic | string | Uint8Array) => Observable<ApplyExtrinsicResult>>;
       /**
        * Check that the inherents are valid.
        **/
@@ -103,7 +103,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0xdf6acb689907609b/3 */
+    /** 0xdf6acb689907609b/4 */
     core: {
       /**
        * Execute the given block.
@@ -116,7 +116,7 @@ declare module '@polkadot/api-base/types/calls' {
       /**
        * Returns the version of the runtime.
        **/
-      version: AugmentedCall<ApiType, () => Observable<RuntimeVersionPre4>>;
+      version: AugmentedCall<ApiType, () => Observable<RuntimeVersion>>;
       /**
        * Generic call
        **/
@@ -193,7 +193,7 @@ declare module '@polkadot/api-base/types/calls' {
        **/
       [key: string]: DecoratedCallBase<ApiType>;
     };
-    /** 0x37c8bb1350a9a2a8/1 */
+    /** 0x37c8bb1350a9a2a8/3 */
     transactionPaymentApi: {
       /**
        * The transaction fee details
@@ -203,6 +203,37 @@ declare module '@polkadot/api-base/types/calls' {
        * The transaction info
        **/
       queryInfo: AugmentedCall<ApiType, (uxt: Extrinsic | IExtrinsic | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<RuntimeDispatchInfo>>;
+      /**
+       * Query the output of the current LengthToFee given some input
+       **/
+      queryLengthToFee: AugmentedCall<ApiType, (length: u32 | AnyNumber | Uint8Array) => Observable<Balance>>;
+      /**
+       * Query the output of the current WeightToFee given some input
+       **/
+      queryWeightToFee: AugmentedCall<ApiType, (weight: Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => Observable<Balance>>;
+      /**
+       * Generic call
+       **/
+      [key: string]: DecoratedCallBase<ApiType>;
+    };
+    /** 0xf3ff14d5ab527059/3 */
+    transactionPaymentCallApi: {
+      /**
+       * The call fee details
+       **/
+      queryCallFeeDetails: AugmentedCall<ApiType, (call: Call | IMethod | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<FeeDetails>>;
+      /**
+       * The call info
+       **/
+      queryCallInfo: AugmentedCall<ApiType, (call: Call | IMethod | string | Uint8Array, len: u32 | AnyNumber | Uint8Array) => Observable<RuntimeDispatchInfo>>;
+      /**
+       * Query the output of the current LengthToFee given some input
+       **/
+      queryLengthToFee: AugmentedCall<ApiType, (length: u32 | AnyNumber | Uint8Array) => Observable<Balance>>;
+      /**
+       * Query the output of the current WeightToFee given some input
+       **/
+      queryWeightToFee: AugmentedCall<ApiType, (weight: Weight | { refTime?: any; proofSize?: any } | string | Uint8Array) => Observable<Balance>>;
       /**
        * Generic call
        **/
